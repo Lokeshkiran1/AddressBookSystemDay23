@@ -11,4 +11,6 @@
     <PackageReference Include="CsvHelper" Version="28.0.1" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties addressrecord_1json__JsonSchema="{" /></VisualStudio></ProjectExtensions>
+
 </Project>

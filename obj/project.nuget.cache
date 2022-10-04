@@ -1,10 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "hPrA32OcHtE86J0v2U9TtM7anq2iR07MpdXmO7OzDznB6jIBQbmAEz42XNxYorULyEUjcRHt+y5rQbYFedWzFw==",
+  "dgSpecHash": "iiX7sr6dxoBZvIt8FSTPc37Zavp2IsnHmAjbWc0H4axAo9yLjq77V1hY4r9eDVe6VHXEZiFkAiglzyPM807RQQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\HP\\Desktop\\csharp\\AddressBookManagemenrtSystemDay28\\AddressBookManagemenrtSystemDay28.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\HP\\.nuget\\packages\\csvhelper\\28.0.1\\csvhelper.28.0.1.nupkg.sha512"
+    "C:\\Users\\HP\\.nuget\\packages\\csvhelper\\28.0.1\\csvhelper.28.0.1.nupkg.sha512",
+    "C:\\Users\\HP\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512"
   ],
   "logs": []
 }
