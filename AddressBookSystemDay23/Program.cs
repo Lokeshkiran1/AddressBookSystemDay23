@@ -32,6 +32,9 @@
                         abd.CountByStateOrCity();
                         break;
                     case 7:
+                        abd.SortEntries();
+                        break;
+                    case 8:
                         // to exit from main method
                         Console.WriteLine("Exited");
                         return;
