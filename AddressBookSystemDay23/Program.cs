@@ -29,6 +29,9 @@
                         abd.SearchDetails();
                         break;
                     case 6:
+                        abd.CountByStateOrCity();
+                        break;
+                    case 7:
                         // to exit from main method
                         Console.WriteLine("Exited");
                         return;

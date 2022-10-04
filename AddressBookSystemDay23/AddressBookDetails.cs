@@ -7,12 +7,20 @@ using System.Threading.Tasks;
 namespace AddressBookSystemDay23
 {
     internal class AddressBookDetails
-    {
+    {  //list for storing objects for person class
         private List<Person> contacts;
-        private static List<Person> searchContacts = new List<Person>();
-        private static List<Person> viewContacts = new List<Person>();
+        //count person based on city or state
+        private int countCity = 0, countState = 0;
+        //list for search contacts
+        private List<Person> searchContacts = new List<Person>();
+        //list for view contacts
+        private List<Person> viewContacts = new List<Person>();
         //address book dictioanry to store values
         private static Dictionary<string, List<Person>> addressBookDictionary = new Dictionary<string, List<Person>>();
+
+        /// <summary>
+        /// Method yto add a member into addresss book
+        /// </summary>
         public void AddMember()
         {
             string addressBookName;
@@ -39,13 +47,13 @@ namespace AddressBookSystemDay23
                 }
 
             }
+
             Console.Write("Enter Number of contacts you want to add:");
             int numOfContacts = Convert.ToInt32(Console.ReadLine());
             while (numOfContacts > 0)
             {
                 //object for person class
                 Person person = new Person();
-
                 while (true)
                 {
                     Console.Write("Enter First Name: ");
@@ -70,6 +78,7 @@ namespace AddressBookSystemDay23
                     }
 
                 }
+
                 Console.Write("Enter Last Name: ");
                 person.lastName = Console.ReadLine();
                 Console.Write("Enter Address: ");
@@ -130,11 +139,13 @@ namespace AddressBookSystemDay23
                 //printing the values in address book
                 foreach (KeyValuePair<string, List<Person>> dict in addressBookDictionary)
                 {
+                    Console.WriteLine("*****************************************************");
                     Console.WriteLine($"******************{dict.Key}*********************");
+                    Console.WriteLine("*****************************************************");
                     foreach (var addressBook in dict.Value)
                     {
                         PrintValues(addressBook);
-                        Console.WriteLine("*******************************************************");
+
                     }
                 }
             }
@@ -156,6 +167,7 @@ namespace AddressBookSystemDay23
             Console.WriteLine($"Zip Code: {x.zipCode}");
             Console.WriteLine($"Phone Number: {x.phoneNumber}");
             Console.WriteLine($"Email: {x.email}");
+            Console.WriteLine("********|||||||||||********");
         }
 
         //method for editing details
@@ -273,34 +285,57 @@ namespace AddressBookSystemDay23
         public void DeleteDetails()
         {
             int f = 0;
-            if (contacts.Count > 0)
+            Console.Write("Enter name of a Address Book in which you want to Delete a person: ");
+            string deleteAbName = Console.ReadLine();
+            Console.Write("Enter name of a person you want to Delete: ");
+            string deleteName = Console.ReadLine();
+            if (addressBookDictionary.Count > 0)
             {
-                Console.Write("Enter name of a person you want to Delete: ");
-                string deleteName = Console.ReadLine();
-
-                foreach (var x in contacts)
+                if (addressBookDictionary.ContainsKey(deleteAbName))
                 {
-                    if (deleteName.ToLower() == x.firstName.ToLower())
+                    foreach (KeyValuePair<string, List<Person>> dict in addressBookDictionary)
                     {
-                        //removing from list
-                        Console.WriteLine("***************DELETED****************");
-                        Console.WriteLine($"You have deleted {x.firstName} contact");
-                        contacts.Remove(x);
-                        f = 1;
-                        break;
+                        if (dict.Key.Equals(deleteAbName))
+                        {
+                            foreach (var x in dict.Value)
+                            {
+                                if (deleteName.ToLower() == x.firstName.ToLower())
+                                {
+                                    //removing from list
+                                    Console.WriteLine("***************DELETED****************");
+                                    Console.WriteLine($"You have deleted {x.firstName} contact");
+                                    dict.Value.Remove(x);
+                                    f = 1;
+                                    break;
+                                }
+                            }
+                            if (f == 0)
+                            {
+                                Console.WriteLine("The name you have entered not in the address book");
+                            }
+                        }
+
                     }
                 }
-                if (f == 0)
+                else
                 {
-                    Console.WriteLine("The name you have entered not in the address book");
+                    Console.WriteLine("Address Book is not found");
                 }
+
 
             }
             else
             {
-                Console.WriteLine("Your contact list is empty");
+                Console.WriteLine("Adress book is empty");
             }
+
+
+
         }
+
+
+        // Method to search deatils
+
         public void SearchDetails()
         {
             string personName;
@@ -327,6 +362,136 @@ namespace AddressBookSystemDay23
             }
 
         }
+
+        // method to view deatils
+
+        public void ViewDetailsByStateOrCity()
+        {
+
+            Console.WriteLine("1. View by city name\n2.View By state name\nEnter your option:");
+            switch (Convert.ToInt32(Console.ReadLine()))
+            {
+                case 1:
+                    Console.WriteLine("Enter the name of city in which you want to view:");
+                    string cityName = Console.ReadLine();
+                    ViewByCityName(cityName, "view");
+                    break;
+                case 2:
+                    Console.WriteLine("Enter the name of state in which you want to view:");
+                    string stateName = Console.ReadLine();
+                    ViewByStateName(stateName, "view");
+                    break;
+                default:
+                    return;
+
+            }
+
+        }
+
+
+        // Method to count persons
+
+        public void CountByStateOrCity()
+        {
+
+            Console.WriteLine("1.Count by city name\n2.Count By state name\nEnter your option:");
+            switch (Convert.ToInt32(Console.ReadLine()))
+            {
+                case 1:
+                    Console.WriteLine("Enter the name of city in which you want to count persons:");
+                    string cityName = Console.ReadLine();
+                    ViewByCityName(cityName, "count");
+                    break;
+                case 2:
+                    Console.WriteLine("Enter the name of state in which you want to count persons:");
+                    string stateName = Console.ReadLine();
+                    ViewByStateName(stateName, "count");
+                    break;
+                default:
+                    return;
+
+            }
+
+        }
+
+        // Method to view contacts based on city name
+
+        public void ViewByCityName(string cityName, string check)
+        {
+            if (addressBookDictionary.Count > 0)
+            {
+
+                foreach (KeyValuePair<string, List<Person>> dict in addressBookDictionary)
+                {
+                    viewContacts = dict.Value.FindAll(x => x.state.Equals(cityName));
+                }
+                if (check.Equals("view"))
+                {
+                    if (viewContacts.Count > 0)
+                    {
+                        foreach (var x in viewContacts)
+                        {
+                            PrintValues(x);
+                        }
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("No Details found ");
+                    }
+                }
+                else
+                {
+                    countCity = viewContacts.Count;
+                    Console.WriteLine($"The total persons in {cityName} are : {countCity}");
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("Adress book is empty");
+            }
+        }
+
+        // Method to view contacts based on state name
+
+        public void ViewByStateName(string stateName, string check)
+        {
+            if (addressBookDictionary.Count > 0)
+            {
+
+                foreach (KeyValuePair<string, List<Person>> dict in addressBookDictionary)
+                {
+                    viewContacts = dict.Value.FindAll(x => x.state.Equals(stateName));
+                }
+                if (check.Equals("view"))
+                {
+                    if (viewContacts.Count > 0)
+                    {
+                        foreach (var x in viewContacts)
+                        {
+                            PrintValues(x);
+                        }
+
+                    }
+                    else
+                    {
+                        Console.WriteLine("No Details found ");
+                    }
+                }
+                else
+                {
+                    countState = viewContacts.Count;
+                    Console.WriteLine($"The total persons in {stateName} are : {countState}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Adress book is empty");
+            }
+        }
+
+        // Method to search contacts based on city name
 
         public void SearchByCityName(string cityName, string personName)
         {
@@ -356,6 +521,9 @@ namespace AddressBookSystemDay23
                 Console.WriteLine("Adress book is empty");
             }
         }
+
+        // Method to search contacts based on state name
+
         public void SearchByStateName(string stateName, string personName)
         {
             if (addressBookDictionary.Count > 0)
@@ -383,82 +551,6 @@ namespace AddressBookSystemDay23
                 Console.WriteLine("Adress book is empty");
             }
 
-        }
-
-        public void ViewDetailsByStateOrCity()
-        {
-
-            Console.WriteLine("1. View by city name\n2.View By state name\nEnter your option:");
-            switch (Convert.ToInt32(Console.ReadLine()))
-            {
-                case 1:
-                    Console.WriteLine("Enter the name of city in which you want to view:");
-                    string cityName = Console.ReadLine();
-                    ViewByCityName(cityName);
-                    break;
-                case 2:
-                    Console.WriteLine("Enter the state of city in which you want to view:");
-                    string stateName = Console.ReadLine();
-                    ViewByStateName(stateName);
-                    break;
-                default:
-                    return;
-
-            }
-
-        }
-
-        public void ViewByCityName(string cityName)
-        {
-            if (addressBookDictionary.Count > 0)
-            {
-
-                foreach (KeyValuePair<string, List<Person>> dict in addressBookDictionary)
-                {
-                    viewContacts = dict.Value.FindAll(x => x.state.Equals(cityName));
-                }
-                if (searchContacts.Count > 0)
-                {
-                    foreach (var x in searchContacts)
-                    {
-                        PrintValues(x);
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("No Persons found");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Adress book is empty");
-            }
-        }
-        public void ViewByStateName(string stateName)
-        {
-            if (addressBookDictionary.Count > 0)
-            {
-
-                foreach (KeyValuePair<string, List<Person>> dict in addressBookDictionary)
-                {
-                    viewContacts = dict.Value.FindAll(x => x.state.Equals(stateName));
-                }
-                if (searchContacts.Count > 0)
-                {
-                    foreach (var x in searchContacts)
-                    {
-                        PrintValues(x);
-                    }
-                }
-                else
-                {
-                    Console.WriteLine("No Persons found");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Adress book is empty");
-            }
         }
     }
 }
