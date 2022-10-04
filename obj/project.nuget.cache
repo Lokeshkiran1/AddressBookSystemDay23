@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "hPrA32OcHtE86J0v2U9TtM7anq2iR07MpdXmO7OzDznB6jIBQbmAEz42XNxYorULyEUjcRHt+y5rQbYFedWzFw==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\HP\\Desktop\\csharp\\AddressBookManagemenrtSystemDay28\\AddressBookManagemenrtSystemDay28.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\HP\\.nuget\\packages\\csvhelper\\28.0.1\\csvhelper.28.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}
